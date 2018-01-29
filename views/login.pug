@@ -6,4 +6,9 @@ block content
          h1 Welcome to The Retreat!
          p Choose your method of sign in.
          p
-            div(data-theme="dark").g-signin2
+            .row
+               .col-md-4
+                  div(data-theme="dark").g-signin2
+               .col-md-8
+                  #twitterDiv
+                     input(type="image" src="resources/sign-in-with-twitter-gray.png")
