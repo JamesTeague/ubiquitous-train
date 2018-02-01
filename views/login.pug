@@ -1,0 +1,25 @@
+extends layout
+
+append head
+   link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css")
+
+block content
+   .container
+      .jumbotron
+         h1(align="center") Welcome to The Retreat!
+         #firebaseui-auth-container
+            .firebase-card-content
+               form(onsubmit="#")
+                  ul.firebaseui-idp-list
+                     li.firebaseui-list-item
+                        button.firebaseui-idp-button.mdl-button.mdl-button--raised.firebaseui-idp-google.firebaseui-id-idp-button
+                           span.firebaseui-idp-icon-wrapper
+                              img(src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg").firebaseui-idp-icon
+                           span.firebaseui-idp-text.firebaseui-idp-text-long Sign in with Google
+                           span.firebaseui-idp-text.firebaseui-idp-text-short Google
+                     li.firebaseui-list-item
+                        button.firebaseui-idp-button.mdl-button.mdl-button--raised.firebaseui-idp-twitter.firebaseui-id-idp-button
+                           span.firebaseui-idp-icon-wrapper
+                              img(src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/twitter.svg").firebaseui-idp-icon
+                           span.firebaseui-idp-text.firebaseui-idp-text-long Sign in with Twitter
+                           span.firebaseui-idp-text.firebaseui-idp-text-short Twitter

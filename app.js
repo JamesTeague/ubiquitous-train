@@ -29,12 +29,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.enable('trust proxy');
 app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.locals.authenticated = function(req, res, next) {
+   if(firebase.auth().currentUser) return next();
+   res.redirect('/login');
+};
 
 // routes ==================================
-require('./routes/routes')(app);
+var routes = require('./routes/routes');
+app.get('/login', routes.login);
+app.get('/', app.locals.authenticated, routes.home);
 
 // error handling ==========================
 // catch 404 and forward to error handler
@@ -68,3 +73,4 @@ app.use(function(err, req, res, next) {
 //launch ===================================
 app.listen(port);
 console.log("Listening on port %s", port);
+module.exports = app;

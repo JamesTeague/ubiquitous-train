@@ -1,6 +1,7 @@
-module.exports = function(app) {
-   app.get('/', function(req, res) {
-      var cwd = process.cwd();
-      res.sendFile(cwd + "/public/login.html");
-   })
+exports.login = function(req, res) {
+   res.render('login', {title: "Retreat Sign In"});
+};
+
+exports.home = function(req, res) {
+  res.render('main', {title: "The Retreat"});
 };
