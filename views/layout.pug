@@ -2,5 +2,14 @@ doctype html
 html
    include head
    body
+      nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.mb-sm-3
+         a.navbar-brand(href="/") Retreat
+         button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+            span.navbar-toggler-icon
+         #navbarSupportedContent.navbar-collapse.collapse
+            ul.navbar-nav
+               li.nav-item
+                  a.nav-link(href='/logout')
+                     button.navbar-btn.btn-dark.btn Log Out
       block content
       include scripts

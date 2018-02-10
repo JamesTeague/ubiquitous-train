@@ -1,0 +1,27 @@
+extends layout
+
+append head
+   script(src="/scripts/login.js")
+
+block content
+   .container
+      form#login_form(novalidate, accept-charset="UTF-8" onsubmit=)
+         .form-group
+            label(for="nameInput") Name
+            input#nameInput.form-control(type="text", placeholder="First and last name")
+         .form-group
+            label(for="emailInput") Email Address
+            input#emailInput.form-control(type="text", placeholder="Email")
+            small#emailHelp.form-text.text-muted We"ll never share your email with anyone else.
+         .form-group
+            label(for="passwordInput") Password
+            input#passwordInput.form-control(type="password", placeholder="Password")
+         //.input-group
+         //   span#addon2.input-group-addon @
+         //.input-group
+         //   span#addon3.input-group-addon •••
+         //   input.form-control(type="password", placeholder="Password", aria-describedby="addon3")
+         //.input-group
+         //   span#addon4.input-group-addon •••
+         //   input.form-control(type="password", placeholder="Verify Password", aria-describedby="addon4")
+         //input.btn.btn-success.btn-block(type="submit", value="Submit")

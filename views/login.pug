@@ -1,7 +1,13 @@
 extends layout
 
 append head
+   script(src="https://apis.google.com/js/platform.js" async defer)
+   meta(name="google-signin-client_id" content="336154349739-84acc7ig6ci6s00tkulu50if4ea6c2j4.apps.googleusercontent.com")
+   meta(name="google-signin-cookiepolicy" content="single_host_origin")
+   meta(name="google-signin-scope" content="profile email")
    link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css")
+   script(src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
+   script(src="/scripts/login.js")
 
 block content
    .container
@@ -9,17 +15,7 @@ block content
          h1(align="center") Welcome to The Retreat!
          #firebaseui-auth-container
             .firebase-card-content
-               form(onsubmit="#")
-                  ul.firebaseui-idp-list
-                     li.firebaseui-list-item
-                        button.firebaseui-idp-button.mdl-button.mdl-button--raised.firebaseui-idp-google.firebaseui-id-idp-button
-                           span.firebaseui-idp-icon-wrapper
-                              img(src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg").firebaseui-idp-icon
-                           span.firebaseui-idp-text.firebaseui-idp-text-long Sign in with Google
-                           span.firebaseui-idp-text.firebaseui-idp-text-short Google
-                     li.firebaseui-list-item
-                        button.firebaseui-idp-button.mdl-button.mdl-button--raised.firebaseui-idp-twitter.firebaseui-id-idp-button
-                           span.firebaseui-idp-icon-wrapper
-                              img(src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/twitter.svg").firebaseui-idp-icon
-                           span.firebaseui-idp-text.firebaseui-idp-text-long Sign in with Twitter
-                           span.firebaseui-idp-text.firebaseui-idp-text-short Twitter
+               ul.firebaseui-idp-list
+                  li.firebaseui-list-item
+                     div(data-onsuccess="onSignIn" data-onfailure="onSignInFailure" align="center").g-signin2
+                  li.firebaseui-list-item
