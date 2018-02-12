@@ -1,3 +1,12 @@
+/**
+ * authentication.js
+ * @param app - application object itself
+ * @param firebase - firebase library that is required by the application
+ *
+ * I am a class that handles all routes dealing with authentication
+ * (e.g sign in, sign out, new user creation, etc.)
+ */
+
 module.exports = function(app, firebase) {
    app.post("/authenticate", function(req, res) {
       var providerName = req.body.provider;
@@ -13,7 +22,7 @@ module.exports = function(app, firebase) {
       else if(providerName === "firebase") {
          firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password)
                .then(function() {
-                  res.render("main", {title: "The Retreat"});
+                  res.redirect("/");
                })
                .catch(function(error) {
                   console.log(error.code + ": " + error.message);
@@ -22,33 +31,28 @@ module.exports = function(app, firebase) {
 
       if(credential) {
          firebase.auth().signInWithCredential(credential)
-             .then(function (response) {
-                 res.redirect("/");
-             })
                .catch(function(error) {
-                  // Handle Errors here.
-                  var errorCode = error.code;
-                  var errorMessage = error.message;
-                  // The email of the user"s account used.
-                  var email = error.email;
-                  // The firebase.auth.AuthCredential type that was used.
-                  var credential = error.credential;
+                  console.log(error.code + ": " + error.message);
+                  console.log(error.credential);
                });
       }
    });
 
-   app.post("/newUser", function(req, res) {
+   app.post("/createAccount", function(req, res) {
       firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
             .then(function() {
-               res.render("main", {title: "The Retreat"});
+               res.redirect("/");
             })
             .catch(function(error) {
                console.log(error.code + ": " + error.message);
+               res.render("error", {message: error.message, error: error});
             })
    });
 
    app.get("/logout", function(req, res) {
-      firebase.auth().signOut().catch(function(error) {
+      firebase.auth().signOut()
+            .then(function () { res.redirect("/") })
+            .catch(function(error) {
           console.log(error.code + ": " + error.message);
       });
    });

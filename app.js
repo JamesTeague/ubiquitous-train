@@ -46,6 +46,7 @@ var routes = require("./routes/routes");
 require("./routes/authentication")(app, firebase);
 app.get("/login", app.locals.unauthenticated, routes.login);
 app.get("/", app.locals.authenticated, routes.home);
+app.get("/signUp", app.locals.unauthenticated, routes.signUp);
 
 // error handling ==========================
 // catch 404 and forward to error handler

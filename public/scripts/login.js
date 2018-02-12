@@ -17,3 +17,7 @@ function onSignIn(googleUser) {
 function onSignInFailure(error) {
    console.log(error);
 }
+
+function createNewUser(a, b, c, d, e, f, g, h) {
+   console.log();
+}
