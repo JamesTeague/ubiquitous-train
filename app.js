@@ -43,7 +43,8 @@ app.locals.unauthenticated = function (req, res, next) {
 
 // routes ==================================
 var routes = require("./routes/routes");
-require("./routes/authentication")(app, firebase);
+var database = require("./public/scripts/database");
+require("./routes/authentication")(app, firebase, database);
 app.get("/login", app.locals.unauthenticated, routes.login);
 app.get("/", app.locals.authenticated, routes.home);
 app.get("/signUp", app.locals.unauthenticated, routes.signUp);

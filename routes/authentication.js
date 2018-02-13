@@ -2,12 +2,13 @@
  * authentication.js
  * @param app - application object itself
  * @param firebase - firebase library that is required by the application
+ * @param database - exports from database.js
  *
  * I am a class that handles all routes dealing with authentication
  * (e.g sign in, sign out, new user creation, etc.)
  */
 
-module.exports = function(app, firebase) {
+module.exports = function(app, firebase, database) {
    app.post("/authenticate", function(req, res) {
       var providerName = req.body.provider;
       var idToken = req.body.idToken;
@@ -21,7 +22,8 @@ module.exports = function(app, firebase) {
       // }
       else if(providerName === "firebase") {
          firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password)
-               .then(function() {
+               .then(function(user) {
+                  database.writeNewUserToDatabase(user.uid, user.displayName, user.email);
                   res.redirect("/");
                })
                .catch(function(error) {
@@ -31,6 +33,11 @@ module.exports = function(app, firebase) {
 
       if(credential) {
          firebase.auth().signInWithCredential(credential)
+               .then(function (user) {
+                  if (user.metadata.creationTime === user.metadata.lastSignInTime)
+                     database.writeNewUserToDatabase(user.uid, user.displayName, user.email);
+                  res.status(200).end();
+               })
                .catch(function(error) {
                   console.log(error.code + ": " + error.message);
                   console.log(error.credential);
@@ -40,7 +47,9 @@ module.exports = function(app, firebase) {
 
    app.post("/createAccount", function(req, res) {
       firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
-            .then(function() {
+            .then(function(user) {
+               if (user.metadata.creationTime === user.metadata.lastSignInTime)
+                  database.writeNewUserToDatabase(user.uid, user.displayName, user.email);
                res.redirect("/");
             })
             .catch(function(error) {
