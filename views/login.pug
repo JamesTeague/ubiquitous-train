@@ -6,7 +6,6 @@ append head
    meta(name="google-signin-cookiepolicy" content="single_host_origin")
    meta(name="google-signin-scope" content="profile email")
    link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css")
-   script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
    script(src="/scripts/login.js")
 
 block content
@@ -24,10 +23,8 @@ block content
                         a(href="/signUp") Sign up
             form(method="post", action="/authenticate", novalidate, accept-charset="UTF-8").col-lg-6
                .form-group
-                  //label(for="emailInput") Email Address
                   input#emailInput.form-control(type="text", placeholder="Email", name="email")
                .form-group
-                  //label(for="passwordInput") Password
                   input#passwordInput.form-control(type="password", placeholder="Password", name="password")
                   input(type="hidden" name="provider" value="firebase")
                .form-group
