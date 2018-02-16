@@ -5,3 +5,7 @@ exports.login = function(req, res) {
 exports.home = function(req, res) {
    res.render("main", {title: "The Retreat"});
 };
+
+exports.signUp = function(req, res) {
+   res.render('signup', {title: "The Retreat Sign Up"})
+};

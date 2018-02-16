@@ -6,16 +6,26 @@ append head
    meta(name="google-signin-cookiepolicy" content="single_host_origin")
    meta(name="google-signin-scope" content="profile email")
    link(type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css")
-   script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
    script(src="/scripts/login.js")
 
 block content
    .container
       .jumbotron
          h1(align="center") Welcome to The Retreat!
-         #firebaseui-auth-container
-            .firebase-card-content
+         #firebaseui-auth-container.row
+            .firebase-card-content.col-lg-6
                ul.firebaseui-idp-list
                   li.firebaseui-list-item
                      div(data-onsuccess="onSignIn" data-onfailure="onSignInFailure" align="center").g-signin2
                   li.firebaseui-list-item
+                     #signUpDiv
+                     small#signInLink.text-muted
+                        a(href="/signUp") Sign up
+            form(method="post", action="/authenticate", novalidate, accept-charset="UTF-8").col-lg-6
+               .form-group
+                  input#emailInput.form-control(type="text", placeholder="Email", name="email")
+               .form-group
+                  input#passwordInput.form-control(type="password", placeholder="Password", name="password")
+                  input(type="hidden" name="provider" value="firebase")
+               .form-group
+                  button.btn.btn-success(type="submit") Sign In
