@@ -10,7 +10,11 @@ html
             ul.navbar-nav.mr-auto
             ul.navbar-nav
                li.nav-item
-                  a.nav-link(href='/logout')
-                     button.navbar-btn.btn-dark.btn Log Out
+                  if loggedIn
+                     a.nav-link(href='/logout')
+                        button.navbar-btn.btn-dark.btn Log Out
+                  else
+                     a.nav-link(href="/logout").disabled
+                        button.navbar-btn.btn-dark.btn.disabled Log Out
       block content
       include scripts
