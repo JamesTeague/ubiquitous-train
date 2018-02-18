@@ -29,6 +29,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.enable("trust proxy");
 app.use(express.static(path.join(__dirname, "/node_modules/bootstrap/dist")));
+app.use(express.static(path.join(__dirname, "/node_modules/jquery/dist")));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
