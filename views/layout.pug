@@ -13,9 +13,6 @@ html
                   if loggedIn
                      a.nav-link(href='/logout')
                         button.navbar-btn.btn-dark.btn Log Out
-                  else
-                     a.nav-link(href="/logout").disabled
-                        button.navbar-btn.btn-dark.btn.disabled Log Out
       block content
       include footer
       include scripts
