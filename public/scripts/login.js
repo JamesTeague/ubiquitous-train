@@ -11,7 +11,10 @@ function signIn(aProvider, anIdToken) {
 }
 
 function onSignIn(googleUser) {
-   signIn("google", googleUser.getAuthResponse().id_token);
+   // prevent Google OAuth from automatically logging user in on the client
+   gapi.auth2.getAuthInstance()
+         .disconnect()
+         .then(signIn("google", googleUser.getAuthResponse().id_token));
 }
 
 function onSignInFailure(error) {
