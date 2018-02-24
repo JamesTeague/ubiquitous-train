@@ -24,10 +24,11 @@ module.exports = function(app, firebase, database) {
          firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password)
                .then(function(user) {
                   database.writeNewUserToDatabase(user.uid, user.displayName, user.email);
-                  res.redirect("/");
+                  res.json({success: true});
                })
                .catch(function(error) {
                   console.log(error.code + ": " + error.message);
+                  res.json({success: false, errorCode: error.code, errorMessage: error.message});
                })
       }
 
@@ -36,11 +37,12 @@ module.exports = function(app, firebase, database) {
                .then(function (user) {
                   if (user.metadata.creationTime === user.metadata.lastSignInTime)
                      database.writeNewUserToDatabase(user.uid, user.displayName, user.email);
-                  res.status(200).end();
+                  res.json({success: true});
                })
                .catch(function(error) {
                   console.log(error.code + ": " + error.message);
                   console.log(error.credential);
+                  res.json({success: false, errorCode: error.code, errorMessage: error.message});
                });
       }
    });
