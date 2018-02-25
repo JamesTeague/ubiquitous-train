@@ -23,7 +23,6 @@ module.exports = function(app, firebase, database) {
       else if(providerName === "firebase") {
          firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password)
                .then(function(user) {
-                  database.writeNewUserToDatabase(user.uid, user.displayName, user.email);
                   res.json({success: true});
                })
                .catch(function(error) {
@@ -48,10 +47,11 @@ module.exports = function(app, firebase, database) {
    });
 
    app.post("/createAccount", function(req, res) {
+      var displayName = req.body.name;
       firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
             .then(function(user) {
                if (user.metadata.creationTime === user.metadata.lastSignInTime)
-                  database.writeNewUserToDatabase(user.uid, user.displayName, user.email);
+                  database.writeNewUserToDatabase(user.uid, displayName, user.email);
                res.redirect("/");
             })
             .catch(function(error) {
