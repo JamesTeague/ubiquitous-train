@@ -25,6 +25,20 @@ var config = {
 
 // configuration ===========================
 firebase.initializeApp(config);
+if(isDevelopmentEnv && process.env.PROVISION_DB) {
+
+   firebase.auth().onAuthStateChanged(function(user) {
+      if (user.isAnonymous) {
+         var Provisioner = require("./provisioner/Provisioner");
+         var provisioner = new Provisioner(firebase);
+         provisioner.provisionDatabase();
+      }
+   });
+
+   firebase.auth().signInAnonymously().catch(function(error) {
+      console.log(error.code + ": " + error.message);
+   });
+}
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.enable("trust proxy");
