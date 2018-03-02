@@ -3,7 +3,7 @@ html {
     min-height: 100%;
 }
 body {
-    margin-bottom: 5vh; /* Margin bottom by footer height */
+    margin-bottom: 8vh; /* Margin bottom by footer height */
 }
 .footer {
     position: absolute;

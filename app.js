@@ -25,7 +25,7 @@ var config = {
 
 // configuration ===========================
 firebase.initializeApp(config);
-if(isDevelopmentEnv && process.env.PROVISION_DB) {
+if(isDevelopmentEnv && process.env.PROVISION_DB === "true") {
 
    firebase.auth().onAuthStateChanged(function(user) {
       if (user.isAnonymous) {

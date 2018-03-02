@@ -1,7 +1,19 @@
 extends layout
 
 block content
-   .container
-      .jumbotron
-         h1 Congrats!
-         p You have signed in.
+   .container.table-responsive
+      table.table.table-striped.table-bordered
+         thead.thead-dark
+            tr
+               th(scope="col").col-10 City
+               th(scope="col").col-2 State
+               th(scope="col").col-2 Country
+         tbody
+            each bid in bids
+               tr
+                  if bid.state
+                     td= bid.name
+                     td= bid.state
+                  else
+                     td(colspan="2")= bid.name
+                  td= bid.country

@@ -6,3 +6,11 @@ exports.writeNewUserToDatabase = function(userId, name, email) {
       email: email
    });
 };
+
+exports.getBids = function () {
+   return firebase.database().ref("bids").once("value");
+};
+
+exports.getCityById = function (aCityId) {
+  return firebase.database().ref("cities/" + aCityId).once("value");
+};
