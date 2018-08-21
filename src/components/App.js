@@ -6,6 +6,7 @@ import Navigation from './Navigation';
 import * as routes from '../constants/routes';
 import withAuthentication from '../hoc/withAuthentication';
 import { connect } from 'react-redux';
+import Footer from '../components/Footer';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route exact path={routes.HOME} component={() => <HomePage />}/>
           <Route exact path={routes.LOGIN} component={() => <LoginForm />}/>
         </div>
+        <Footer />
       </div>
     </BrowserRouter>
   );

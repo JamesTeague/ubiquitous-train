@@ -32,7 +32,7 @@ class Navigation extends React.Component {
 }
 
 const NavigationContainer = ({ authUser, toggle, isOpen }) =>
-  <Navbar color={'dark'} dark expand={'md'}>
+  <Navbar color={'dark'} dark expand={'md'} sticky={'top'}>
     <NavbarBrand href={routes.HOME}>Retreat</NavbarBrand>
     <NavbarToggler onClick={toggle} />
     <Collapse isOpen={isOpen} navbar>
