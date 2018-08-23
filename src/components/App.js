@@ -13,7 +13,7 @@ const App = () => {
     <BrowserRouter>
       <div>
         <Navigation />
-        <div className='container'>
+        <div>
           <Route exact path={routes.HOME} component={() => <HomePage />}/>
           <Route exact path={routes.LOGIN} component={() => <LoginForm />}/>
         </div>

@@ -19,12 +19,8 @@ const transformFirebaseDataToArray = (data) => {
   return arr;
 };
 
-export const AUTH_USER_SET = createAction('AUTH_USER_SET',
-  transformFirebaseAuthUser);
+export const AUTH_USER_SET = createAction('AUTH_USER_SET', transformFirebaseAuthUser);
 export const USERS_SET     = createAction('USERS_SET', transformFirebaseDataToArray);
-export const CITIES_SET     = createAction('CITIES_SET', transformFirebaseDataToArray);
-export const fetchBids     = createAction('FETCH_BIDS');
-export const fetchCities   = createAction('FETCH_CITIES');
-export const login         = createAction('LOGIN');
-export const logout        = createAction('LOGOUT');
+export const CITIES_SET    = createAction('CITIES_SET', transformFirebaseDataToArray);
+export const CITIES_UNSET  = createAction('CITIES_UNSET');
 

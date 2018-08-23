@@ -1,4 +1,4 @@
-import { CITIES_SET } from '../actions/types';
+import { CITIES_SET, CITIES_UNSET } from '../actions/types';
 import { handleActions } from 'redux-actions';
 
 const firebaseDefault = {
@@ -10,6 +10,10 @@ const firebaseReducer = handleActions({
   [CITIES_SET]: (state, action) =>({
     ...state,
     cities: action.payload,
+  }),
+  [CITIES_UNSET]: (state) => ({
+    ...state,
+    cities: null,
   }),
 }, firebaseDefault);
 

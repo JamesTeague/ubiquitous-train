@@ -1,22 +1,31 @@
 import React from 'react';
 import { authRef } from '../config/firebase';
-import { AUTH_USER_SET } from '../actions/types';
+import { AUTH_USER_SET, CITIES_SET, CITIES_UNSET } from '../actions/types';
 import { connect } from 'react-redux';
+import { onCityValue } from '../firebase/database';
 
 const withAuthentication = (Component) => {
   class WithAuthentication extends React.Component {
     constructor (props) {
       super(props);
-
-      this.state = { authUser: null, };
     }
 
     componentDidMount () {
-      const { onSetAuthUser } = this.props;
+      const {
+        onSetAuthUser,
+        onCityValue,
+        unsetCities,
+      } = this.props;
+
       authRef.onAuthStateChanged(authUser => {
-        authUser
-          ? onSetAuthUser(authUser)
-          : onSetAuthUser(null);
+        if(authUser) {
+          onSetAuthUser(authUser);
+          onCityValue();
+        }
+        else {
+          unsetCities();
+          onSetAuthUser(null);
+        }
       });
     }
 
@@ -29,6 +38,8 @@ const withAuthentication = (Component) => {
 
   const mapDispatchToProps = (dispatch) => ({
     onSetAuthUser: (authUser) => dispatch(AUTH_USER_SET(authUser)),
+    unsetCities: () => dispatch(CITIES_UNSET()),
+    onCityValue: () => onCityValue(snapshot => dispatch(CITIES_SET(snapshot.val()))),
   });
 
   return connect(null, mapDispatchToProps)(WithAuthentication);
