@@ -2,7 +2,7 @@ import React from 'react';
 import { authRef } from '../config/firebase';
 import { AUTH_USER_SET, CITIES_SET, CITIES_UNSET } from '../actions/types';
 import { connect } from 'react-redux';
-import { onCityValue } from '../firebase/database';
+import { doesUserExist, onCityValue } from '../firebase/database';
 
 const withAuthentication = (Component) => {
   class WithAuthentication extends React.Component {
@@ -10,7 +10,7 @@ const withAuthentication = (Component) => {
       super(props);
     }
 
-    componentDidMount () {
+    async componentDidMount () {
       const {
         onSetAuthUser,
         onCityValue,
@@ -19,7 +19,10 @@ const withAuthentication = (Component) => {
 
       authRef.onAuthStateChanged(authUser => {
         if(authUser) {
-          onSetAuthUser(authUser);
+          doesUserExist(authUser.uid).then((user) => {
+            if(user) onSetAuthUser(user);
+            else onSetAuthUser(authUser);
+          });
           onCityValue();
         }
         else {

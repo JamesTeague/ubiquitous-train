@@ -10,3 +10,6 @@ export const citiesRef = databaseRef.child('cities');
 export const usersRef  = databaseRef.child('users');
 export const votesRef  = databaseRef.child('votes');
 export const authRef   = firebase.auth();
+
+const adminApp = firebase.initializeApp(FirebaseConfig, 'admin');
+export const adminAuthRef = adminApp.auth();

@@ -40,7 +40,8 @@ class Navigation extends React.Component {
 
 const NavigationContainer = ({ authUser, toggle, isOpen, redirectTo }) =>
   <Navbar color={'dark'} dark expand={'md'} sticky={'top'}>
-    <NavbarBrand onClick={() => redirectTo(routes.HOME)}>Retreat</NavbarBrand>
+    {/*href is a void javascript function to have it appear as a white link on screen*/}
+    <NavbarBrand href={'javascript:;'} onClick={() => redirectTo(routes.HOME)}>Retreat</NavbarBrand>
     <NavbarToggler onClick={toggle} />
     <Collapse isOpen={isOpen} navbar>
       {authUser ? <NavigationAuth redirectTo={redirectTo}/> : <NavigationNonAuth redirectTo={redirectTo}/>}

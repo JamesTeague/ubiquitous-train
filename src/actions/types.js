@@ -1,15 +1,5 @@
 import { createAction } from 'redux-actions';
 
-const transformFirebaseAuthUser = (authUser) => {
-  if(!authUser) return null;
-  return {
-    displayName  : authUser.displayName,
-    email        : authUser.email,
-    emailVerified: authUser.emailVerified,
-    uid          : authUser.uid,
-  }
-};
-
 const transformFirebaseDataToArray = (data) => {
   if(!data) return null;
   let arr = [];
@@ -19,7 +9,7 @@ const transformFirebaseDataToArray = (data) => {
   return arr;
 };
 
-export const AUTH_USER_SET = createAction('AUTH_USER_SET', transformFirebaseAuthUser);
+export const AUTH_USER_SET = createAction('AUTH_USER_SET');
 export const USERS_SET     = createAction('USERS_SET', transformFirebaseDataToArray);
 export const CITIES_SET    = createAction('CITIES_SET', transformFirebaseDataToArray);
 export const CITIES_UNSET  = createAction('CITIES_UNSET');

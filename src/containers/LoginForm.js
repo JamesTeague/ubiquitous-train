@@ -5,10 +5,7 @@ import { firebaseLogin } from '../actions/firebase';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { HOME } from '../constants/routes';
-
-const byPropKey = (propertyName, value) => () => ({
-  [propertyName]: value,
-});
+import Util from '../util'
 
 const getValidationState = (email) => {
   if(email === '') return null;
@@ -46,7 +43,7 @@ class LoginForm extends Component {
       history.push(HOME);
     }
     catch(error) {
-      this.setState(byPropKey('error', error));
+      this.setState(Util.byPropKey('error', error));
     }
   };
 
@@ -73,7 +70,7 @@ class LoginForm extends Component {
                   value={email}
                   placeholder={'Email Address'}
                   onChange={event => this.setState(
-                    byPropKey('email', event.target.value))}
+                    Util.byPropKey('email', event.target.value))}
                   valid={getValidationState(email)}
                   invalid={!getValidationState(email)}
                 />
@@ -91,7 +88,7 @@ class LoginForm extends Component {
                   id='userPassword'
                   value={password}
                   onChange={event => this.setState(
-                    byPropKey('password', event.target.value))}
+                    Util.byPropKey('password', event.target.value))}
                 />
               </Col>
             </FormGroup>
