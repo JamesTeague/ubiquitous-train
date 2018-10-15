@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
+import { firebaseReducer } from 'react-redux-firebase';
 
-import firebaseReducer from './firebase';
 import sessionReducer from './session';
 import userReducer from './user';
 

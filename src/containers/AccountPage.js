@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { compose } from 'recompose';
-import withAuthorization from '../hoc/withAuthorization';
 import { connect } from 'react-redux';
-import { Col, FormGroup, Input, Label, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import { Alert, Col, FormGroup, Input, Label, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import withAuthorization from '../hoc/withAuthorization';
 import permissions from "../constants/permissions";
 import Util from "../util";
 import { adminAuthRef, usersRef } from "../config/firebase";
@@ -19,6 +19,7 @@ class AccountPage extends Component {
       newUserEmail: '',
       newUserPermission: 0,
       newUserPassword: '',
+      adminResult: null,
     };
   }
 
@@ -37,31 +38,47 @@ class AccountPage extends Component {
       newUserDisplayName,
       newUserEmail,
       newUserPermission,
-      newUserPassword
+      newUserPassword,
     } = this.state;
 
-    const newRecord = await adminAuthRef.createUserWithEmailAndPassword(newUserEmail, newUserPassword);
-    adminAuthRef.signOut();
-    console.log('Created new user', newRecord.user);
+    adminAuthRef
+      .createUserWithEmailAndPassword(newUserEmail, newUserPassword)
+      .then((userCredential) => {
+        console.log('Created new user %o', userCredential.user);
+        adminAuthRef.signOut();
+        usersRef
+          .child(userCredential.user.uid)
+          .set({
+            displayName: newUserDisplayName,
+            email: newUserEmail,
+            permission: newUserPermission,
+            emailVerified: false,
+            uid: userCredential.user.uid,
+          });
 
-    // TODO - Alert Admin that user has been created.
+        this.setState(Util.byPropKey('adminResult', {type: 'success', message: 'Created new user'}));
+        setTimeout(() => this.setState(Util.byPropKey('adminResult', null)), 3000);
 
-    usersRef.child(newRecord.user.uid).set({
-      displayName: newUserDisplayName,
-      email: newUserEmail,
-      permission: newUserPermission,
-      emailVerified: false,
-      uid: newRecord.user.uid,
-    });
+      })
+      .catch((error) => this.setState(Util.byPropKey('adminResult', {type: 'danger', message: error.message})));
+
   };
 
   render () {
+    const {
+      activeTab,
+      adminResult,
+      displayName,
+      newUserDisplayName,
+      newUserEmail,
+      newUserPassword,
+    } = this.state;
     return (
       <div>
         <Nav tabs className={'mb-2'}>
           <NavItem>
             <NavLink
-              className={ this.state.activeTab.toUpperCase() === 'GENERAL' ? 'active' : '' }
+              className={ activeTab.toUpperCase() === 'GENERAL' ? 'active' : '' }
               onClick={() => { this.toggle('GENERAL'); }}
             >
               General
@@ -69,16 +86,16 @@ class AccountPage extends Component {
           </NavItem>
           <NavItem>
             <NavLink
-              className={this.state.activeTab.toUpperCase() === 'FLIGHT' ? 'active' : ''}
+              className={activeTab.toUpperCase() === 'FLIGHT' ? 'active' : ''}
               onClick={() => { this.toggle('FLIGHT'); }}
             >
               Flight
             </NavLink>
           </NavItem>
-          {this.props.user.permission === permissions.ADMIN.ordinal &&
+          {this.props.user.permission === permissions.get('ADMIN').ordinal &&
             <NavItem>
               <NavLink
-                className={this.state.activeTab.toUpperCase() === 'ADMIN' ? 'active' : ''}
+                className={activeTab.toUpperCase() === 'ADMIN' ? 'active' : ''}
                 onClick={() => {
                   this.toggle('ADMIN');
                 }}
@@ -88,13 +105,13 @@ class AccountPage extends Component {
             </NavItem>
           }
         </Nav>
-        <TabContent activeTab={this.state.activeTab.toUpperCase()}>
+        <TabContent activeTab={activeTab.toUpperCase()}>
           <TabPane tabId={'GENERAL'}>
             <Col sm={{size: 6, offset: 3}}>
               <Label for={'userDisplayName'}>Display Name</Label>
               <Input
                 type={'text'}
-                value={this.state.displayName}
+                value={displayName}
                 readOnly={true}
               />
             </Col>
@@ -110,7 +127,7 @@ class AccountPage extends Component {
                       <Label for={'newDisplayName'}>Display Name</Label>
                       <Input
                         type={'text'}
-                        value={this.state.newUserDisplayName}
+                        value={newUserDisplayName}
                         onChange={event => this.setState(
                           Util.byPropKey('newUserDisplayName', event.target.value))}
                       />
@@ -121,7 +138,7 @@ class AccountPage extends Component {
                       <Label for={'newEmail'}>Email</Label>
                       <Input
                         type={'text'}
-                        value={this.state.newUserEmail}
+                        value={newUserEmail}
                         onChange={event => this.setState(
                           Util.byPropKey('newUserEmail', event.target.value))}
                       />
@@ -136,7 +153,7 @@ class AccountPage extends Component {
                         placeholder={'Password'}
                         name={'password'}
                         id={'newPassword'}
-                        value={this.state.newUserPassword}
+                        value={newUserPassword}
                         onChange={event => this.setState(
                           Util.byPropKey('newUserPassword', event.target.value))}
                       />
@@ -152,12 +169,19 @@ class AccountPage extends Component {
                         onChange={event => this.setState(
                           Util.byPropKey('newUserPermission', event.target.value))}
                       >
-                          <option value={permissions.USER.ordinal}>{permissions.USER.string}</option>
-                          <option value={permissions.VOTER.ordinal}>{permissions.VOTER.string}</option>
-                          <option value={permissions.ADMIN.ordinal}>{permissions.ADMIN.string}</option>
+                          <option value={permissions.get('USER').ordinal}>{permissions.get('USER').string}</option>
+                          <option value={permissions.get('VOTER').ordinal}>{permissions.get('VOTER').string}</option>
+                          <option value={permissions.get('ADMIN').ordinal}>{permissions.get('ADMIN').string}</option>
                       </Input>
                     </Col>
                   </FormGroup>
+                  {adminResult && (<FormGroup>
+                    <Col sm={{size: 6, offset:3}}>
+                      <Alert color={adminResult.type}>
+                        {adminResult.message}
+                      </Alert>
+                    </Col>
+                  </FormGroup>)}
                   <FormGroup>
                     <Col sm={{size: 9, offset: 7}}>
                       <button

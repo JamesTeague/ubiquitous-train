@@ -61,12 +61,12 @@ class LoginForm extends Component {
           <Form>
             <FormGroup>
               <Col sm={{size: 6, offset: 3}}>
-                <Label for="userEmail">Email</Label>
+                <Label for={'userEmail'}>Email</Label>
                 <Input
                   className={'form-control'}
-                  type='email'
-                  name='email'
-                  id='userEmail'
+                  type={'email'}
+                  name={'email'}
+                  id={'userEmail'}
                   value={email}
                   placeholder={'Email Address'}
                   onChange={event => this.setState(
@@ -79,13 +79,13 @@ class LoginForm extends Component {
             </FormGroup>
             <FormGroup>
               <Col sm={{size: 6, offset: 3}}>
-                <Label for='userPassword'>Password</Label>
+                <Label for={'userPassword'}>Password</Label>
                 <Input
                   className={'form-control'}
-                  type='password'
-                  placeholder='Password'
-                  name='password'
-                  id='userPassword'
+                  type={'password'}
+                  placeholder={'Password'}
+                  name={'password'}
+                  id={'userPassword'}
                   value={password}
                   onChange={event => this.setState(
                     Util.byPropKey('password', event.target.value))}
@@ -94,7 +94,7 @@ class LoginForm extends Component {
             </FormGroup>
             {error && (<FormGroup>
               <Col sm={12}>
-                <Alert color="danger">
+                <Alert color={'danger'}>
                   {error.message}
                 </Alert>
               </Col>

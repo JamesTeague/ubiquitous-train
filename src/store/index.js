@@ -1,6 +1,3 @@
-import { createStore } from 'redux';
-import rootReducer from '../reducers';
-
-const store = createStore(rootReducer, {});
+import { store } from '../config/firebase';
 
 export default store;
