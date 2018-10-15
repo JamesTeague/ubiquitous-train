@@ -1,0 +1,35 @@
+image: node:latest
+
+stages:
+- build
+- test
+- deploy
+
+build_dev_app:
+  stage: deploy
+  image: ruby:latest
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=ubiquitous-train-dev --api-key=$HEROKU_API_KEY
+  environment:
+    name: Heroku Development
+    url: https://ubiquitous-train-dev.herokuapp.com/
+
+  only:
+  - development
+
+build_prod_app:
+  stage: deploy
+  image: ruby:latest
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=ubiquitous-train-staging --api-key=$HEROKU_API_KEY
+  environment:
+    name: Heroku Staging
+    url: https://ubiquitous-train-staging.herokuapp.com/
+  only:
+  - master
