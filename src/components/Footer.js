@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 const Footer = () =>
   <footer
@@ -30,4 +29,4 @@ const Footer = () =>
     </div>
   </footer>;
 
-export default connect()(Footer)
+export default Footer

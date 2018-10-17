@@ -1,11 +1,9 @@
 import React from 'react';
-
-import { firebaseLogout } from '../actions/firebase';
-import { connect } from 'react-redux';
 import { NavLink } from 'reactstrap';
+import { firebaseLogout } from '../actions/firebase';
 
 const SignOutLink = () =>(
   <NavLink onClick={firebaseLogout}>Sign Out</NavLink>
 );
 
-export default connect()(SignOutLink);
+export default SignOutLink;
