@@ -3,7 +3,8 @@ import { Alert, Col, Form, FormFeedback, FormGroup, Input, Label } from 'reactst
 import * as email_validator from 'email-validator/index';
 import { firebaseLogin } from '../actions/firebase';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
+import * as routes from '../constants/routes';
 import { HOME } from '../constants/routes';
 import Util from '../util'
 
@@ -48,6 +49,9 @@ class LoginForm extends Component {
   };
 
   render () {
+    if (this.props.authUser) {
+      return <Redirect to={routes.HOME}/>
+    }
     const {
             email,
             password,
@@ -116,4 +120,8 @@ class LoginForm extends Component {
   }
 }
 
-export default withRouter(connect()(LoginForm));
+const mapStateToProps = (state) => ({
+  authUser: state.session.authUser,
+});
+
+export default withRouter(connect(mapStateToProps)(LoginForm));
