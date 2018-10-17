@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import * as routes from '../constants/routes';
 import withAuthentication from '../hoc/withAuthentication';
 import LoginForm from '../containers/LoginForm';
@@ -15,7 +15,10 @@ const App = () => {
       <div>
         <Navigation />
         <div>
-          <Route exact path={routes.HOME} component={() => <HomePage />}/>
+          <Switch>
+            <Redirect exact path={routes.INDEX} to={routes.HOME}/>
+            <Route exact path={routes.HOME} component={() => <HomePage />}/>
+          </Switch>
           <Route exact path={routes.LOGIN} component={() => <LoginForm />}/>
           <Route exact path={routes.ACCOUNT} component={() => <AccountPage />}/>
         </div>
