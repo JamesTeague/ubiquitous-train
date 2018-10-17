@@ -17,19 +17,11 @@ const Footer = () =>
           </small>
         </div>
         <div className={'p-2'}>
-          <a href={'mailto:jtteague13@gmail.com'}>
-            <small className={'text-muted'}>
-              Email support
-            </small>
-          </a>
-        </div>
-        <div className={'p-2'}>
           <a
-            href={'https://github.com/JamesTeague/ubiquitous-train/issues/new?title=Bug%20Title&body=Bug%20Description&labels=bug'}
-            target={'_blank'}
+            href={'mailto:incoming+JamesTeague/ubiquitous-train@incoming.gitlab.com'}
           >
             <small className={'text-muted'}>
-              Report a bug
+              Report a bug or suggestion
             </small>
           </a>
         </div>
